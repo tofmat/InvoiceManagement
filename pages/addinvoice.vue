@@ -8,7 +8,7 @@
               <div class="jobDetailsTexts">
                 <h3 class="mb-5 mainColor">Generate Invoice</h3>
               </div>
-              <v-form v-model="valid">
+              <v-form>
                 <v-row class="justifyBetween">
                     <v-col
                       cols="12"
@@ -106,17 +106,13 @@
                   </div>
               </v-form>
 
-              <div>
-                <h3 class="mt-5">Total Price: N100,000</h3>
-              </div>
             </v-col>
           </div>
         </div>
-        <div class="mt-10">          
+        <div class="mt-10">
           <div class="mt-10 centerflex ">
             <v-btn class="findBtn" to="#" @click="addIt()">Generate Invoice</v-btn>
           </div>
-          
         </div>
       </div>
     </div>
@@ -175,6 +171,7 @@ methods: {
         console.log("Done");
         this.$toasted.success('Sucessfully Added Invoice')
         this.clientData = ""
+        this.$router.push("/downloadinvoice");
     })
     .catch(e => {
         console.log(e);

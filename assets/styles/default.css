@@ -84,3 +84,7 @@ hr {
 /* input {
   border: solid 1px black;
 } */
+
+.v-application--wrap {
+  background: #F6F6F6;
+}

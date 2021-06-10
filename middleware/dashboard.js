@@ -4,6 +4,6 @@ export default async function({$auth, redirect, store}) {
       
   } else {
       redirect ('/')
-      // this.$toasted.erroe('Please Login!')
+      // this.$toasted.error('Please Login!')
   }
 }

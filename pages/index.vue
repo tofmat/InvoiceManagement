@@ -2,7 +2,7 @@
   <div class="fullPage centerflex">
     <div class="headFirst">
       <h1>Invoice Management</h1>
-      <v-form v-model="valid" class="fineForm">
+      <v-form class="fineForm">
         <v-container>
           <v-row>
             <v-col
@@ -67,6 +67,7 @@ export default {
       })
       .catch(e => {
         console.log(e);
+        this.$toasted.error('There was an error logging in..')
         this.loading = false;
       });
   }

@@ -2,7 +2,8 @@ import axios from 'axios'
 
 export const state = () => ({
   clients: [],
-  invoices: []
+  invoices: [],
+  invoice: ''
 
 })
 
@@ -12,6 +13,9 @@ export const getters = {
   },
   invoices(state) {
     return state.invoices
+  },
+  invoice(state) {
+    return state.invoice
   }
 }
 
@@ -22,6 +26,9 @@ export const mutations = {
   SET_INVOICES(state, data) {
     state.invoices = data
   },
+  SET_INVOICE(state, data) {
+    state.invoice = data
+  }
 }
 
 export const actions = {
@@ -46,7 +53,10 @@ export const actions = {
         'Authorization': `Bearer ${localStorage.getItem("token")}`
         }
     });
-    console.log(response);
+    return dispatch("setInvoice", response.data);
+  },
+  async setInvoice ({commit, state}, data){
+    commit("SET_INVOICE", data);
   },
   async getClients( {commit}) {
     let response = await axios.get("https://api.invoice.ng/v1/client/all", {
