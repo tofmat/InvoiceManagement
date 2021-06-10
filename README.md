@@ -19,3 +19,8 @@ $ npm run generate
 
 For detailed explanation on how things work, check out [Nuxt.js docs](https://nuxtjs.org).
 # InvoiceManagement
+
+
+Idea of the Project.
+
+This is an invoicing application built with Vue (Nuxt.Js), Using the invoice.ng API.
