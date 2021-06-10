@@ -21,7 +21,7 @@
         </div>
       </v-item-group>
       <i class="far fa-bell fa-2x mx-5"></i>
-      <a href="/profile"><img src="../assets/images/Profil.png" alt="avatar" height="50px" class="dashProfilePic"></a>
+      <a href="/"><img src="../assets/images/Profil.png" alt="avatar" height="50px" class="dashProfilePic"></a>
     </v-app-bar>
 
     <v-navigation-drawer v-model="drawer" absolute temporary class="pad-10 noDesktop mobileDisplay">
@@ -77,7 +77,7 @@
                     </v-list-item-icon>
                     <v-list-item-title>All Invoices</v-list-item-title>
                 </v-list-item>
-                <v-list-item link class="sideLinkCon" to="profile" router exact active-class="navActive">
+                <v-list-item link class="sideLinkCon" to="clients" router exact active-class="navActive">
                     <v-list-item-icon>
                       <svg xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 25.871 28.729"><g transform="translate(1.5 1.5)"><path d="M28.871,31.076V28.218A5.718,5.718,0,0,0,23.153,22.5H11.718A5.718,5.718,0,0,0,6,28.218v2.859" transform="translate(-6 -5.347)"/><path class="a" d="M23.435,10.218A5.718,5.718,0,1,1,17.718,4.5,5.718,5.718,0,0,1,23.435,10.218Z" transform="translate(-6.282 -4.5)"/></g></svg>
                     </v-list-item-icon>
@@ -122,6 +122,8 @@
 </template>
 
 <script>
+import { mapGetters, mapActions } from "vuex";
+
 export default {
   data () {
     return {
@@ -139,11 +141,11 @@ export default {
         },
         {
           title: 'All Invoices',
-          to: '/'
+          to: '/invoices'
         },
         {
           title: 'Clients',
-          to: '/profile'
+          to: '/clients'
         },
         {
           title: 'Transaction',
@@ -155,7 +157,7 @@ export default {
         },
         {
           title: 'Settings',
-          to: '/profile'
+          to: '/'
         }
       ],
       upNavItems: [
@@ -165,11 +167,11 @@ export default {
         },
         {
           title: 'Invoices',
-          to: '/'
+          to: '/invoices'
         },
         {
           title: 'Clients',
-          to: '/'
+          to: '/clients'
         }
       ],
       miniVariant: false,
@@ -177,6 +179,16 @@ export default {
       rightDrawer: false,
       title: 'Vuetify.js'
     }
+  },
+  async mounted() {
+    await this.getClients(),
+    await this.getInvoices()
+  },
+  methods: {
+    ...mapActions({
+        getClients: "getClients",
+        getInvoices: "getInvoices"
+    }),
   }
 }
 </script>

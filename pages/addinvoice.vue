@@ -15,7 +15,7 @@
                       md="4"
                     >
                       <v-text-field
-                        v-model="asad"
+                        v-model="invoice.invoice_no"
                         label="Invoice Number (#)"
                         placeholder="121"
                         required>
@@ -43,6 +43,7 @@
                     md="6"
                   >
                     <v-textarea
+                      v-model="invoice.description"
                       label="Project Describtion"
                       value="The Woodman set to work at once, and so sharp was his axe that the tree was soon chopped nearly through."
                       hint="Describe project scope"
@@ -58,7 +59,10 @@
                       md=4
                     >
                       <v-select
-                        :items="items"
+                        v-model="invoice.client"
+                        :items="clients"
+                        item-text="names"
+                        item-value="id"
                         label="Client"
                       ></v-select>
                     </v-col>
@@ -68,7 +72,7 @@
                       md="4"
                     >
                       <v-text-field
-                        v-model="lastname"
+                        v-model="invoice.tax_rate"
                         :counter="2"
                         label="Tax Rate (%)"
                         required
@@ -80,7 +84,8 @@
                       md="4"
                     >
                       <v-select
-                        :currency="currency"
+                        v-model="invoice.currency"
+                        :items="currency"
                         label="Currency"
                       ></v-select>
                     </v-col>
@@ -89,72 +94,13 @@
                 <div class="jobDetailsTexts">
                   <h3 class="mb-5 mainColor">Add Items</h3>
                 </div>
-                  <v-simple-table>
-                    <template v-slot:default>
-                      <thead>
-                        <tr>
-                          <th class="text-left">
-                            Description
-                          </th>
-                          <th class="text-left">
-                            Quantity
-                          </th>
-                          <th class="text-left">
-                            Unit Price
-                          </th>
-                          <th class="text-left">
-                            Amount
-                          </th>
-                          <th class="text-left">
-                            Action
-                          </th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr v-for="item in invoice.items" :key="item.item_num">
-                          <td>
-                            <v-col
-                              cols="12"
-                            >
-                              <v-text-field
-                                v-model="Item"
-                                placeholder="Item Description"
-                                required
-                              ></v-text-field>
-                            </v-col>
-                          </td>
-                          <td>
-                            <v-col
-                              cols="12"
-                            >
-                              <v-text-field
-                                placeholder="Item Quantity"
-                                v-model="Item"
-                                required
-                              ></v-text-field>
-                            </v-col>
-                          </td>
-                          <td>
-                            <v-col
-                              cols="12"
-                            >
-                              <v-text-field
-                                placeholder="Price per unit"
-                                v-model="Item"
-                                required
-                              ></v-text-field>
-                            </v-col>
-                          </td>
-                          <td>
-                            1000
-                          </td>
-                          <td>
-                            <i class="fas fa-trash" @click="removeItem(item)"></i>
-                          </td>
-                        </tr>
-                      </tbody>
-                    </template>
-                  </v-simple-table>
+                  <ItemForm
+                      v-for="item in invoice.items"
+                      v-bind:key="item.item_num"
+                      v-bind:initialItem="item"
+                  >
+                  </ItemForm>
+
                   <div class="mt-5 ">
                     <v-btn class="findBtn" to="#" @click="addItem()">Add Item</v-btn>
                   </div>
@@ -168,7 +114,7 @@
         </div>
         <div class="mt-10">          
           <div class="mt-10 centerflex ">
-            <v-btn class="findBtn" to="#">Generate Invoice</v-btn>
+            <v-btn class="findBtn" to="#" @click="addIt()">Generate Invoice</v-btn>
           </div>
           
         </div>
@@ -178,39 +124,71 @@
 </template>
 
 <script>
+import { mapGetters, mapActions } from "vuex";
+import ItemForm from '@/components/ItemForm.vue'
 export default {
+components: {
+  ItemForm
+},
 layout: 'dashboard',
 data: () => ({
-  items: ['Foo', 'Bar', 'Fizz', 'Buzz'],
+  currency: ['USD', 'NGN', 'GBP', 'EUR'],
   invoice: {
+    client: '645236872886793',
+    invoice_no: '23',
+    payment_status: "Not Paid",
+    description: 'ascasfeas',
+    currency: 'USD',
+    tax_rate: 10,
     items: [
       {
-        item_num: 0,
-        title: '',
-        unit_price: '',
+        description: 'acdwrcar',
         quantity: 1,
-        vat_rate: 0,
-        net_amount: 0
+        rate: 2000,
+        item_num: 0
       }
     ]
   }
 }),
 methods: {
+  ...mapActions({
+      addInvoice: "addInvoice",
+      getClients: "getClients"
+  }),
   addItem() {
     this.invoice.items.push({
         item_num: this.invoice.items.length,
-        title: '',
-        unit_price: '',
+        description: '',
+        rate: 0,
         quantity: 1,
-        vat_rate: 0,
-        net_amount: 0
     })
   },
   removeItem(item) {
     this.invoice.items = this.invoice.items.filter(ite => {
       return ite.item.item_num !== item.item_num
     })
+  },
+  addIt(){
+    this.loading = true;
+    this.addInvoice(this.invoice)
+    .then(() => {
+        console.log("Done");
+        this.clientData = ""
+    })
+    .catch(e => {
+        console.log(e);
+        this.loading = false;
+    });
   }
+
+},
+computed: {
+  ...mapGetters({
+      clients: 'clients',
+  })
+},
+async mounted() {
+    await this.getClients()
 }
 }
 </script>

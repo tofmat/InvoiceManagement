@@ -30,7 +30,7 @@
                                         <div>
                                             <v-row>
                                                 <v-col cols="12">
-                                                    <h3 class="mainColor">$0.00</h3>
+                                                    <h3 class="mainColor">$10,000.00</h3>
                                                     <p class="textItalics mt-3">Total Amount pending dibursemnet to you</p>
                                                 </v-col>
                                             </v-row>
@@ -43,15 +43,15 @@
                     <div class="mt-10">
                         <div class="row textCenter">
                             <v-col cols="6" sm="4">
-                                <h3 class="mb-2">$50.00</h3>
+                                <h3 class="mb-2">$0.00</h3>
                                 <p class="textMainColor">Total Earned</p>
                             </v-col>
                             <v-col cols="6" sm="4">
-                                <h3 class="mb-2">$50k+</h3>
+                                <h3 class="mb-2">{{invoices.length}}</h3>
                                 <p class="textMainColor">Invoices Sent</p>
                             </v-col>
                             <v-col cols="6" sm="4">
-                                <h3 class="mb-2">37</h3>
+                                <h3 class="mb-2">{{invoices.length}}</h3>
                                 <p class="textMainColor">Pending Invoices</p>
                             </v-col>
                         </div>
@@ -62,14 +62,14 @@
                             <hr class="fullWidth">
                             <div class="mt-4"> 
                                 <div>
-                                    <v-row>
+                                    <v-row v-for="invoice in invoices" :key="invoice.id">
                                         <v-col cols="12" sm="8">
-                                            <h3 class="mainColor">Storytelling expert with narrative skills and an eye for design</h3>
-                                            <p class="textItalics">As always, great work and working with you</p>
+                                            <h3 class="mainColor">{{invoice.description}}</h3>
+                                            <p class="textItalics">{{invoice.created_at}}</p>
                                         </v-col>
                                         <v-col cols="12" sm="4" class="rightAlign">
                                             <h2>Status</h2>
-                                            <h4>Pending</h4>
+                                            <h4>{{invoice.payment_status}}</h4>
                                         </v-col>
                                     </v-row>
                                 </div>
@@ -104,12 +104,14 @@
                                         cols="12"
                                     >
                                         <v-text-field
+                                        v-model="clientData.names"
                                         label="Legal first name *"
                                         required
                                         ></v-text-field>
                                     </v-col>
                                     <v-col cols="12">
                                         <v-text-field
+                                        v-model="clientData.email"
                                         label="Email *"
                                         type="email"
                                         required
@@ -117,6 +119,7 @@
                                     </v-col>
                                     <v-col cols="12">
                                         <v-text-field
+                                        v-model="clientData.phone"
                                         label="Phone Number *"
                                         type="number"
                                         required
@@ -124,6 +127,7 @@
                                     </v-col>
                                     <v-col cols="12">
                                         <v-text-field
+                                        v-model="clientData.address"
                                         label="Address *"
                                         required
                                         ></v-text-field>
@@ -141,7 +145,7 @@
                                 >
                                     Close
                                 </v-btn>
-                                <v-btn class="myBtn findBtn" to="#">
+                                <v-btn class="myBtn findBtn" to="#" @click="addUser()">
                                     Add Client
                                 </v-btn>
                                 </v-card-actions>
@@ -175,11 +179,47 @@
 </template>
 
 <script>
+import axios from 'axios'
+import { mapGetters, mapActions } from "vuex";
 export default {
+    
     layout: 'dashboard',
     data: () => ({
       dialog: false,
+      clientData: {
+          names: '',
+          email: '',
+          phone: '',
+          address: ''
+      }
     }),
+    methods: {
+        ...mapActions({
+            addClient: "addClient",
+            getClients: "getClients"
+        }),
+        addUser(){
+            this.loading = true;
+            this.addClient(this.clientData)
+            .then(() => {
+                console.log("Done");
+                this.dialog = false
+                this.clientData = ""
+            })
+            .catch(e => {
+                console.log(e);
+                this.loading = false;
+            });
+        }
+    },
+    async mounted() {
+        await this.getClients()
+    },
+    computed: {
+      ...mapGetters({
+          invoices: 'invoices',
+      })
+    },
 }
 </script>
 
