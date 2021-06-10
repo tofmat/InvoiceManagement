@@ -1,0 +1,86 @@
+* {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+.flex{
+  display: flex;
+}
+.centerflex{
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+.alignCenter{
+  align-items: center;
+}
+.marginy-20{
+  margin: 20px 0;
+}
+.columnFlex {
+  flex-direction: column;
+}
+.noMargin{
+  margin: 0 !important;
+}
+.blueColor {
+  color: #007BFF !important;
+}
+.ashColor {
+  color: #9F9F9F;
+}
+.textCenter {
+  text-align: center;
+}
+hr {
+  height: 1px;
+  width: 30px;
+}
+.myBtn {
+  box-shadow: none !important;
+}
+.justifyBetween{
+  justify-content: space-between;
+}
+.fullWidth{
+  width: 100%;
+}
+.rightAlign{
+  text-align: right;
+}
+.mainColor {
+  color: #00E68A;
+}
+.redColor{
+  color: #FF5656;
+}
+
+.textItalics{
+  font-style: italic;
+}
+.findBtn{
+  padding: 20px !important;
+  background-color: #00E68A !important;
+  color: white !important;
+  box-shadow: none !important;
+  margin-right: 10px;
+}
+.workBtn{
+  padding: 20px !important;
+  background-color: transparent !important;
+  border: #00E68A solid 1px;
+  color: #00E68A !important;
+  box-shadow: none !important;
+}
+.navActive{
+  color: #00E68A !important;
+  stroke:#00E68A !important;
+}
+.v-list-item--active {
+  color: #00E68A !important;
+  background-color: none;
+}
+.v-list-item--link:before {
+  background-color: transparent !important;
+}
+/* input {
+  border: solid 1px black;
+} */
