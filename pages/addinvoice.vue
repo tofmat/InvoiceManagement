@@ -173,6 +173,7 @@ methods: {
     this.addInvoice(this.invoice)
     .then(() => {
         console.log("Done");
+        this.$toasted.success('Sucessfully Added Invoice')
         this.clientData = ""
     })
     .catch(e => {

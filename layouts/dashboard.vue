@@ -125,6 +125,7 @@
 import { mapGetters, mapActions } from "vuex";
 
 export default {
+  middleware: ['dashboard'],
   data () {
     return {
       clipped: false,

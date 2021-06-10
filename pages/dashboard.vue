@@ -204,11 +204,13 @@ export default {
             .then(() => {
                 console.log("Done");
                 this.dialog = false
+                this.$toasted.success('Sucessfully Added Client')
                 this.clientData = ""
             })
             .catch(e => {
                 console.log(e);
                 this.loading = false;
+                this.$toasted.error('There was an error please try again')
             });
         }
     },
