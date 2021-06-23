@@ -8,13 +8,13 @@
                         <div class="row">
                             <v-col cols="12" sm="8" lg="6">
                                 <div class="backWhite workHis">
-                                    <h2 class="mb-4">Total Revenue</h2>
+                                    <h2 class="mb-4">Paid Invoices</h2>
                                     <hr class="fullWidth">
                                     <div class="mt-4"> 
                                         <div>
                                             <v-row>
                                                 <v-col cols="12">
-                                                    <h3 class="mainColor">$0.00</h3>
+                                                    <h3 class="mainColor">{{allPaidInvoices | formatCurrency}}</h3>
                                                     <p class="textItalics mt-3">Total Amount of invoices paid and confirmed</p>
                                                 </v-col>
                                             </v-row>
@@ -30,7 +30,7 @@
                                         <div>
                                             <v-row>
                                                 <v-col cols="12">
-                                                    <h3 class="mainColor">$10,000.00</h3>
+                                                    <h3 class="mainColor">{{calculateNotPaidInvoice | formatCurrency}}</h3>
                                                     <p class="textItalics mt-3">Total Amount pending dibursemnet to you</p>
                                                 </v-col>
                                             </v-row>
@@ -43,8 +43,8 @@
                     <div class="mt-10">
                         <div class="row textCenter">
                             <v-col cols="6" sm="4">
-                                <h3 class="mb-2">$0.00</h3>
-                                <p class="textMainColor">Total Earned</p>
+                                <h3 class="mb-2">{{calculateTotalInvoice | formatCurrency}}</h3>
+                                <p class="textMainColor">Total Invoices</p>
                             </v-col>
                             <v-col cols="6" sm="4">
                                 <h3 class="mb-2">{{invoices.length}}</h3>
@@ -172,8 +172,10 @@
                       <p>May - $100,000</p>
                       <p>June - $50,000</p>
                   </div>
+                  <button @click="totalNotPaid()"> Test </button>
               </v-col>
           </div>
+          
       </div>
   </div>
 </template>
@@ -191,7 +193,9 @@ export default {
           email: '',
           phone: '',
           address: ''
-      }
+      },
+      totalInvoice: '',
+      NotPaidArray: []
     }),
     methods: {
         ...mapActions({
@@ -212,6 +216,14 @@ export default {
                 this.loading = false;
                 this.$toasted.error('There was an error please try again')
             });
+        },
+        calculateTotalInvoice() {
+            var addAll = this.invoices.reduce((acc, item) => acc + item.total, 0);
+            console.log(addAll);
+        },
+        totalNotPaid() {
+            console.log(this.totalNotPaidInvoiceAmount);
+            
         }
     },
     async mounted() {
@@ -220,8 +232,42 @@ export default {
     computed: {
       ...mapGetters({
           invoices: 'invoices',
-      })
+          totalInvoiceAmount: 'totalInvoiceAmount',
+          totalNotPaidInvoiceAmount: 'totalNotPaidInvoiceAmount',
+          totalPaidInvoices: 'totalPaidInvoices'
+      }),
+      calculateTotalInvoice() {
+        var addAll = this.invoices.reduce((acc, item) => acc + item.total, 0);
+        console.log(addAll);
+        return addAll
+      },
+      calculateNotPaidInvoice() {
+        var addAll = this.totalNotPaidInvoiceAmount.reduce((acc, item) => acc + item.total, 0);
+        console.log(addAll);
+        return addAll
+        },
+        allPaidInvoices() {
+        var addAll = this.totalPaidInvoices.reduce((acc, item) => acc + item.total, 0);
+        console.log(addAll);
+        return addAll
+        }
     },
+    filters : {
+        formatCurrency: function (value) {
+        if (isNaN(value)) {
+            return value
+        } else {
+            value = parseFloat(value.toString().replace(/,/g, ""))
+            .toString()
+            .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            return value
+        }
+        },
+        encode: function (value) {
+            value = window.btoa(value)
+            return value
+        }
+    }
 }
 </script>
 

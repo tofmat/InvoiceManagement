@@ -3,7 +3,8 @@ import axios from 'axios'
 export const state = () => ({
   clients: [],
   invoices: [],
-  invoice: ''
+  invoice: '',
+  totalInvoiceAmount: ''
 
 })
 
@@ -16,6 +17,18 @@ export const getters = {
   },
   invoice(state) {
     return state.invoice
+  },
+  totalNotPaidInvoiceAmount(state) {
+    var allNotPaid = state.invoices.filter(ite => {
+      return ite.payment_status == "Not Paid"
+    })
+    return allNotPaid
+  },
+  totalPaidInvoices(state) {
+    var allPaid = state.invoices.filter(ite => {
+      return ite.payment_status == "Paid"
+    })
+    return allPaid
   }
 }
 

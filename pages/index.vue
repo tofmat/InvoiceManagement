@@ -34,7 +34,7 @@
         </v-container>
       </v-form>
       <div class="mt-5 ">
-        <v-btn class="findBtn" to="#" @click="submit()">Login</v-btn>
+        <v-btn class="findBtn" @click="submit()">Login</v-btn>
       </div>
     </div>
   </div>

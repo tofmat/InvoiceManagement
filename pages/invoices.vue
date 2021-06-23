@@ -1,6 +1,7 @@
 <template>
   <div>
     <div class="dashDefaultContent">
+      <p>Total Amount: {{invoices[0].total}}</p>
       <div class="">
         <v-card>
           <v-card-title>
@@ -41,7 +42,8 @@ export default {
           { text: 'Invoice Date', value: 'created_at' },
           { text: 'Due Date', value: 'due_date' },
           { text: 'Is Paid', value: 'payment_status' },
-        ]
+        ],
+        // totalAmountInvoice: this.invoices[0].total
       }
     },
     computed: {
