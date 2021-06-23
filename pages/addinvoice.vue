@@ -94,12 +94,12 @@
                 <div class="jobDetailsTexts">
                   <h3 class="mb-5 mainColor">Add Items</h3>
                 </div>
-                  <ItemForm
-                      v-for="item in invoice.items"
-                      v-bind:key="item.item_num"
-                      v-bind:initialItem="item"
+                  <addItemForm
+                      v-for="singleItem in invoice.items"
+                      v-bind:key="singleItem.item_num"
+                      v-bind:initialItem="singleItem"
                   >
-                  </ItemForm>
+                  </addItemForm>
 
                   <div class="mt-5 ">
                     <v-btn class="findBtn" to="#" @click="addItem()">Add Item</v-btn>
@@ -121,10 +121,10 @@
 
 <script>
 import { mapGetters, mapActions } from "vuex";
-import ItemForm from '@/components/ItemForm.vue'
+import addItemForm from '../components/additemForm'
 export default {
 components: {
-  ItemForm
+  addItemForm
 },
 layout: 'dashboard',
 data: () => ({
@@ -159,11 +159,7 @@ methods: {
         quantity: 1,
     })
   },
-  removeItem(item) {
-    this.invoice.items = this.invoice.items.filter(ite => {
-      return ite.item.item_num !== item.item_num
-    })
-  },
+  
   addIt(){
     this.loading = true;
     this.addInvoice(this.invoice)

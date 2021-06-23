@@ -28,7 +28,7 @@
                 cols="12"
               >
                 <v-text-field
-                  v-model="item.description"
+                  v-model="val.description"
                   placeholder="Item Description"
                   required
                 ></v-text-field>
@@ -40,7 +40,7 @@
               >
                 <v-text-field
                   placeholder="Item Quantity"
-                  v-model="item.quantity"
+                  v-model="val.quantity"
                   required
                 ></v-text-field>
               </v-col>
@@ -51,7 +51,7 @@
               >
                 <v-text-field
                   placeholder="Price per unit"
-                  v-model="item.rate"
+                  v-model="val.rate"
                   required
                 ></v-text-field>
               </v-col>
@@ -60,7 +60,7 @@
               {{gross_amount}}
             </td>
             <td>
-              <i class="fas fa-trash" @click="removeItem(item)"></i>
+              <i class="fas fa-trash"></i>
             </td>
           </tr>
         </tbody>
@@ -74,21 +74,27 @@ export default {
   props: ['initialItem'],
   data() {
     return {
-      item: this.initialItem
+      val: this.initialItem
     }
   },
   computed: {
     gross_amount() {
-        const rate = this.item.rate
-        const quantity = this.item.quantity
+        const rate = this.val.rate
+        const quantity = this.val.quantity
 
         const net_amount = rate * quantity
 
         // this.$emit('updatePrice', this.item)
         return net_amount
     }
-}
-}
+  },
+  methods: {
+    // removeItem(val) {
+    // this.invoice.items = this.invoice.items.filter(ite => {
+    //   return ite.val.item_num !== val.item_num
+    // })
+  }
+  }
 </script>
 
 <style>

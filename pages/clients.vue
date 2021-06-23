@@ -45,6 +45,14 @@ computed: {
       clients: 'clients',
   })
 },
+async mounted() {
+    await this.getClients()
+  },
+methods: {
+  ...mapActions({
+      getClients: "getClients",
+  }),
+  }
 }
 </script>
 
